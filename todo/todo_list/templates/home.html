@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{%block content %}
+    {%if messages%}
+    {% for message in messages %}
+        <div class="alert alert-warning alert-dismissable fade show" role="alert">
+           <button class="close"  data-dismiss="alert">
+               <small><sub>X</sub></small>
+           </button>
+           {{message}}
+        </div>
+    {% endfor %}
+    {% endif %}
+
+    {%if all_items %}
+      <table class='table table-bordered'>
+      {%for plan in all_items %}
+      <tr>
+            <td>
+        <a href="{% url 'edit' plan.id %}"> 
+        {{plan.item}} 
+         </a> 
+        </td>
+          {%if plan.completed%}
+          <td>
+          <a href="{% url 'uncross' plan.id %}"  >
+          <button class='btn btn-success'>已完成</button>
+          </a>
+         </td>
+          {% else %}
+          <td>
+          <a href="{% url 'cross_off' plan.id %}">
+            <button class='btn btn-info'>未完成</button>
+           </a>
+        </td>
+           {% endif %}
+          <td>
+            <a href="{% url 'delete' plan.id %}">
+                    <button class="btn btn-danger">删除</button>
+            </a>  
+            </td>
+      </tr>
+       {%endfor%}
+     </table>
+    {%endif%}
+
+    <h4>I am here</h4>
+
+{% endblock %}
