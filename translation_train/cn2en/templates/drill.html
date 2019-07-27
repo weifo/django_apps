@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>translation page</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'cn2en/global.css' %}">
+</head>
+<body>
+    {% block content %}
+    <h3>{{sample.chinese}}</h3>
+    <!-- <h3>{{sample.english}}</h3> -->
+    {% for word in tofill %}
+      {% if word %}
+      <span>{{word}}</span>
+      {%else%}
+      <div class="wordbar">
+        <input type="text" class="effect" data-idx="{{forloop.counter0}}">
+        <span class="focus_border"></span>
+      </div>
+          
+      </span>
+      {%endif%}
+    {%endfor%}
+    {% endblock %}
+    <script>
+    const blanks=document.querySelectorAll('input');
+    let test="{{sample.english}}"
+    console.log(test)
+    function fn(e){
+        console.log(e.target.value,e.target.dataset.idx)
+    }
+    function debounce(fn, delay) {
+        var timer = null;
+        return function() {
+            var context = this,
+            args = arguments;
+            clearTimeout(timer);
+            timer = setTimeout(function() {
+            fn.apply(context, args);
+            }, delay);
+        };
+    }
+    let dFn=debounce(fn,1000)
+    
+    for(let i=0;i<blanks.length;i++){
+        // console.log(blank)
+        blanks[i].addEventListener('input',dFn)
+    }
+    // for(let i=0;i<test.length;i++){
+    //     console.log(test[i])
+    // }
+    // localStorage.setItem('test',JSON.stringify(test))
+    </script>
+</body>
+</html>
